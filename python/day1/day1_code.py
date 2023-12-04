@@ -1,5 +1,3 @@
-input = "1Absdfjkh"
-
 def find_number(inputList : list[str]) -> list[str]:
     outputList = []
     for input in inputList:
