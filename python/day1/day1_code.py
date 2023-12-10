@@ -1,8 +1,26 @@
 def find_all_numbers(input: str) -> str:
+    digit_map = {
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four' : '4',
+        'five' : '5',
+        'six' : '6',
+        'seven' : '7',
+        'eight' : '8',
+        'nine' : '9',
+        'ten' : '10',
+    }
     output = ''
-    for char in input:
+    counter = 0
+    for i, char in enumerate(input):
         if char.isdigit():
             output += char 
+        for j in range(i+1, len(input)):
+            digit_val = digit_map.get(input[i:j+1])
+            if digit_val is not None:
+                output +=digit_val
+    print(output)
     return output
 
 def generate_full_number_list(inputList: list[str]) -> list[int] :
@@ -16,7 +34,7 @@ def generate_full_number_list(inputList: list[str]) -> list[int] :
     return outputList
         
 def find_sum_part_a():
-    inputList = parse_input('input.txt')
+    inputList = parse_input('input1b.txt')
     outputList = generate_full_number_list(inputList)
     return sum(outputList)
 
