@@ -1,12 +1,13 @@
 import re
-# this function will get the whole list and should do everything
-def resolve(lines : list[str]):
+from functools import reduce
+
+# Solves for part 2A
+def sum_of_valid_games_2a(lines : list[str]):
     test = [12, 13, 14]
     valid_games = []
     for game_no, line in enumerate(lines, 1):
         sub_games =  line.split(';')
-        # print(game_no)
-        all_sub_games_valid: list[bool] = [] 
+        all_sub_games_valid: list[bool] = []
         for sub in sub_games:
             colors = parse_colors(sub)
             if all(x <= y for x,y in zip(colors, test)):
@@ -21,9 +22,22 @@ def resolve(lines : list[str]):
     return sum(valid_games)
 
 
+# Solves for part 2B
+def part_2b(lines : list[str]) :
+    total_sum = 0
+    for game_no, line in enumerate(lines):
+        ind_game_prod = 1
+        sub_games = line.split(';')
+        highest_color = [0,0,0]
+        for sub in sub_games:
+            colors = parse_colors(sub)
+            for index,(x,y) in enumerate(zip(highest_color, colors)):
+                if x < y:
+                    highest_color[index] = y
+        print(f'lowest colors needed for game # {game_no} = {highest_color}')
+        total_sum = total_sum+ reduce(lambda x,y : x*y, highest_color)
 
-
-
+    return total_sum
 
 
 def parse_colors(input_string) -> list[int]:
@@ -50,5 +64,5 @@ def parse_input(filename : str) -> list[str]:
         return [line.strip() for line in f.readlines()]
 
 if __name__ == '__main__':
-    # print(parse_input('example2a.txt'))
-    print(resolve(parse_input('input2a.txt')))
+    # print(sum_of_valid_games_2a(parse_input('input2a.txt')))
+    print(part_2b(parse_input('input2b.txt')))
